@@ -1,114 +1,69 @@
-# Markdown Editor
+# CLAUDE.md
 
-A desktop markdown editor built with Tauri, React, and TypeScript featuring Vim-style keybindings and live preview.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Features
+## Commands
 
-- **Vim Keybindings**: Full Vim modal editing with normal, insert, and visual modes
-- **Live Preview**: Real-time GitHub-style markdown rendering
-- **Resizable Panes**: Adjustable split-pane interface
-- **Syntax Highlighting**: Markdown syntax highlighting in the editor
-- **Desktop App**: Cross-platform desktop application using Tauri
-- **Auto-focus**: Editor is automatically focused on app load
+### Development
+- `npm run dev` - Start development server with hot reloading
+- `npm run build` - Build for production (TypeScript compilation + Vite build)
+- `npm run preview` - Preview production build
+- `npm run tauri` - Run Tauri commands (use with dev/build for desktop app)
 
-## Tech Stack
-
-- **Frontend**: React 19 + TypeScript + TailwindCSS
-- **Desktop**: Tauri v2
-- **Editor**: CodeMirror 6 with @replit/codemirror-vim
-- **Markdown**: marked.js for parsing
-- **UI**: react-split for resizable panes
-
-## Development
-
-### Prerequisites
-
-- Node.js 18+
-- Rust (for Tauri)
-
-### Install Dependencies
-
-```bash
-npm install
-```
-
-### Development Server
-
-```bash
-npm run dev        # Web version at http://localhost:1420
-npm run tauri dev  # Desktop application (opens maximized)
-```
-
-### Build
-
-```bash
-npm run build       # Web build
-npm run tauri build # Desktop build
-```
-
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── VimEditor.tsx          # CodeMirror editor with Vim bindings
-│   └── MarkdownPreview.tsx    # Live markdown preview
-├── App.tsx                    # Main app with split panes
-├── App.css                    # Styling (TailwindCSS + custom)
-└── main.tsx                   # React entry point
-
-src-tauri/                     # Tauri configuration and Rust code
-```
-
-## Vim Keybindings
-
-The editor supports standard Vim keybindings:
-
-- **Modal editing**: `i` for insert mode, `Esc` for normal mode
-- **Navigation**: `h`, `j`, `k`, `l` for cursor movement
-- **Editing**: `dd` to delete line, `yy` to copy, `p` to paste
-- **Visual mode**: `v` for character selection, `V` for line selection
-
-## Configuration
-
-### Tauri Configuration
-
-- Window title: "Markdown Editor"
-- Opens maximized by default
-- Resizable panes with 300px minimum width
-- Editor auto-focuses on load
-
-### Development Commands
-
-- `npm run dev` - Start Vite development server
-- `npm run build` - Build for production
-- `npm run tauri dev` - Start Tauri development app
+### Tauri Desktop App
+- `npm run tauri dev` - Run in Tauri development mode (desktop app)
 - `npm run tauri build` - Build desktop application
 
-## Styling
+## Architecture
 
-The preview pane uses GitHub-style markdown rendering with:
+This is a **Tauri-based desktop markdown editor** with Vim keybindings. The app uses a split-pane interface with real-time preview and scroll synchronization.
 
-- GitHub's font stack and typography
-- Proper heading hierarchy and spacing
-- Code block styling with syntax highlighting
-- Table styling with striped rows
-- Blockquote and list styling matching GitHub
+### Technology Stack
+- **Frontend**: React 19 + TypeScript + Vite
+- **Styling**: TailwindCSS with dark/light theme support
+- **Editor**: CodeMirror 6 with Vim keybindings (@replit/codemirror-vim)
+- **Markdown**: marked.js for parsing and rendering
+- **Desktop**: Tauri 2 (Rust backend)
+- **Layout**: react-split for resizable panes
 
-## Dependencies
+### Key Components
 
-### Main Dependencies
+**App.tsx** (`src/App.tsx`)
+- Main orchestrator component managing application state
+- Handles split-pane layout, scroll synchronization, and status tracking
+- Manages markdown content, cursor position, vim mode, and word count
 
-- `react` - UI framework
-- `codemirror` - Code editor
-- `@replit/codemirror-vim` - Vim keybindings
-- `marked` - Markdown parser
-- `react-split` - Resizable panes
-- `@tauri-apps/api` - Tauri integration
+**VimEditor** (`src/components/VimEditor.tsx`)
+- CodeMirror-based editor with full Vim modal editing
+- Syntax highlighting with theme-aware colors
+- Scroll synchronization using percentage-based positioning
+- Real-time cursor and mode tracking
 
-### Development Dependencies
+**MarkdownPreview** (`src/components/MarkdownPreview.tsx`)
+- Real-time markdown rendering with GitHub-style appearance
+- Scroll synchronization that aligns with editor content
+- Theme-aware styling for light/dark modes
 
-- `@vitejs/plugin-react` - React support for Vite
-- `tailwindcss` - CSS framework
-- `typescript` - Type checking
-- `@tauri-apps/cli` - Tauri CLI tools
+**ThemeContext** (`src/contexts/ThemeContext.tsx`)
+- Centralized theme management with localStorage persistence
+- Provides theme state and toggle functionality throughout the app
+
+**StatusBar** (`src/components/StatusBar.tsx`)
+- Displays word count, vim mode, cursor position, and theme toggle
+
+### Scroll Synchronization System
+The app implements **percentage-based scroll synchronization** between editor and preview panes:
+- Both components track scroll position as percentage (0-1)
+- Uses `isScrollingFromSync` flags to prevent infinite loops
+- Accounts for different content heights in each pane
+
+### Theme System
+- Uses Tailwind's dark mode with class-based switching
+- ThemeContext manages theme state and applies classes to `document.documentElement`
+- CodeMirror editor has custom theme definitions for both light and dark modes
+- All components support theme switching without remounting
+
+### Tauri Integration
+- Minimal Rust backend (`src-tauri/src/main.rs` and `src-tauri/src/lib.rs`)
+- Uses Tauri 2 with plugin architecture
+- Desktop app with web frontend architecture
