@@ -1,28 +1,29 @@
 @import "tailwindcss";
 
+/* Ensure full viewport coverage and prevent scrollbars */
 html, body, #root {
   height: 100%;
   width: 100%;
   overflow: hidden;
 }
 
-/* Dark mode styles */
+/* Dark mode configuration */
 .dark {
   color-scheme: dark;
 }
 
-/* Dark mode markdown preview styling */
+/* Dark mode preview content styling */
 .dark .preview-content {
   color: #d1d5db;
   background-color: #000000 !important;
 }
 
-/* Force dark background on all preview elements */
+/* Force dark backgrounds on all preview elements */
 .dark .preview-content * {
   background-color: inherit !important;
 }
 
-/* Nuclear option - override any white backgrounds in dark mode */
+/* Override any forced white backgrounds in dark mode */
 .dark [style*="background-color: white"],
 .dark [style*="background: white"],
 .dark .bg-white {
@@ -84,7 +85,7 @@ html, body, #root {
   width: 100%;
 }
 
-/* GitHub-style markdown preview */
+/* GitHub-style markdown preview base styling */
 .preview-content {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -285,7 +286,7 @@ html, body, #root {
   border: 0;
 }
 
-/* Light mode cursor styling */
+/* Editor cursor styling for light mode */
 .cm-vim-fat-cursor,
 .cm-fat-cursor,
 .CodeMirror-vim-fat-cursor,
@@ -302,7 +303,7 @@ html, body, #root {
   border-left-color: black !important;
 }
 
-/* Dark mode cursor styling */
+/* Editor cursor styling for dark mode */
 .dark .cm-vim-fat-cursor,
 .dark .cm-fat-cursor,
 .dark .CodeMirror-vim-fat-cursor,
@@ -327,7 +328,7 @@ html, body, #root {
 }
 
 
-/* CodeMirror height constraint to prevent status bar from moving */
+/* CodeMirror layout constraints */
 .cm-editor {
   height: 100% !important;
   max-height: 100% !important;
@@ -338,7 +339,7 @@ html, body, #root {
   overflow: auto !important;
 }
 
-/* Ensure Split pane works properly */
+/* Split pane layout styling */
 .split {
   display: flex !important;
   flex-direction: row !important;
@@ -351,7 +352,7 @@ html, body, #root {
   min-width: 0 !important;
 }
 
-/* React Split Pane Styling */
+/* Resizable gutter styling */
 .gutter {
   background-color: #f1f3f4;
   background-repeat: no-repeat;
@@ -369,7 +370,7 @@ html, body, #root {
   width: 4px;
 }
 
-/* Dark mode gutter */
+/* Dark mode gutter styling */
 .dark .gutter {
   background-color: #374151;
 }
@@ -378,7 +379,7 @@ html, body, #root {
   background-color: #4b5563;
 }
 
-/* Ensure status bar dark mode works */
+/* Dark mode status bar styling */
 .dark .status-bar {
   background-color: #111827 !important;
   border-top-color: #374151 !important;
