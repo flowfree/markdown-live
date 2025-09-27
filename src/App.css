@@ -285,7 +285,7 @@ html, body, #root {
   border: 0;
 }
 
-/* Vim cursor styling - comprehensive override */
+/* Light mode cursor styling */
 .cm-vim-fat-cursor,
 .cm-fat-cursor,
 .CodeMirror-vim-fat-cursor,
@@ -302,27 +302,28 @@ html, body, #root {
   border-left-color: black !important;
 }
 
-/* Override any red cursor colors */
-.cm-editor .cm-cursor,
-.cm-editor .cm-vim-fat-cursor,
-.cm-editor .cm-fat-cursor {
-  background-color: black !important;
-  border-color: black !important;
+/* Dark mode cursor styling */
+.dark .cm-vim-fat-cursor,
+.dark .cm-fat-cursor,
+.dark .CodeMirror-vim-fat-cursor,
+.dark .cm-vim-cursor,
+.dark .cm-cursor.cm-vim-cursor {
+  background-color: white !important;
+  border: none !important;
+  color: black !important;
 }
 
-/* Nuclear option - override everything with red */
-.cm-editor *[style*="background"] {
-  background-color: black !important;
+.dark .cm-focused .cm-cursor,
+.dark .cm-cursor,
+.dark .cm-dropCursor {
+  border-left-color: white !important;
 }
 
-.cm-editor *[style*="red"] {
-  background-color: black !important;
-}
-
-/* Target all possible cursor elements */
-.cm-content [style*="background-color: red"],
-.cm-content [style*="background: red"] {
-  background-color: black !important;
+.dark .cm-editor .cm-cursor,
+.dark .cm-editor .cm-vim-fat-cursor,
+.dark .cm-editor .cm-fat-cursor {
+  background-color: white !important;
+  border-color: white !important;
 }
 
 

@@ -53,16 +53,16 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
       { tag: tags.heading4, color: "#7dd3fc", fontWeight: "bold" },
       { tag: tags.heading5, color: "#7dd3fc", fontWeight: "bold" },
       { tag: tags.heading6, color: "#9ca3af", fontWeight: "bold" },
-      { tag: tags.strong, color: "#f9fafb", fontWeight: "bold" },
+      { tag: tags.strong, color: "#d1d5db", fontWeight: "bold" },
       { tag: tags.emphasis, color: "#c084fc", fontStyle: "italic" },
       { tag: tags.strikethrough, textDecoration: "line-through" },
       { tag: tags.link, color: "#60a5fa", textDecoration: "underline" },
       { tag: tags.url, color: "#60a5fa" },
       { tag: tags.monospace, color: "#fbbf24", backgroundColor: "#374151" },
       { tag: tags.quote, color: "#9ca3af", fontStyle: "italic" },
-      { tag: tags.list, color: "#f9fafb" },
-      { tag: tags.punctuation, color: "#f9fafb" },
-      { tag: tags.content, color: "#f9fafb" },
+      { tag: tags.list, color: "#d1d5db" },
+      { tag: tags.punctuation, color: "#d1d5db" },
+      { tag: tags.content, color: "#d1d5db" },
       { tag: tags.keyword, color: "#f87171" },
       { tag: tags.string, color: "#34d399" },
       { tag: tags.comment, color: "#9ca3af", fontStyle: "italic" },
@@ -72,6 +72,7 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
       doc: value,
       extensions: [
         basicSetup,
+        EditorView.lineWrapping,
         markdown(),
         vim(),
         syntaxHighlighting(theme === 'dark' ? darkHighlight : lightHighlight),
@@ -110,6 +111,7 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
           ".cm-content": {
             padding: "16px",
             lineHeight: "1.5",
+            whiteSpace: "pre-wrap",
           },
           ".cm-editor": {
             height: "100%",
@@ -120,22 +122,25 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
           ".cm-focused": {
             outline: "none",
           },
+          ".cm-line": {
+            wordWrap: "break-word",
+          },
         }),
 
         // Theme-specific styling
         theme === 'dark' ? EditorView.theme({
           "&": {
             backgroundColor: "#000000",
-            color: "#f9fafb",
+            color: "#d1d5db",
           },
           ".cm-content": {
-            caretColor: "#f9fafb",
+            caretColor: "#ffffff",
           },
           ".cm-cursor, .cm-dropCursor": {
-            borderLeftColor: "#f9fafb",
+            borderLeftColor: "#ffffff",
           },
           "&.cm-focused .cm-cursor": {
-            borderLeftColor: "#f9fafb",
+            borderLeftColor: "#ffffff",
           },
           ".cm-selectionBackground, ::selection": {
             backgroundColor: "#374151",
@@ -149,7 +154,7 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
             border: "none",
           },
           ".cm-vim-fat-cursor": {
-            backgroundColor: "#f9fafb !important",
+            backgroundColor: "#ffffff !important",
             color: "#000000 !important",
             border: "none !important",
           },

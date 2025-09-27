@@ -39,7 +39,7 @@ Enjoy writing in Markdown!`);
             sizes={[50, 50]}
             minSize={300}
             expandToMin={false}
-            gutterSize={4}
+            gutterSize={2}
             gutterAlign="center"
             snapOffset={30}
             dragInterval={1}
