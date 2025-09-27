@@ -13,7 +13,7 @@ html, body, #root {
 
 /* Dark mode markdown preview styling */
 .dark .preview-content {
-  color: #f9fafb;
+  color: #d1d5db;
   background-color: #000000 !important;
 }
 
@@ -35,7 +35,7 @@ html, body, #root {
 .dark .preview-content h4,
 .dark .preview-content h5,
 .dark .preview-content h6 {
-  color: #f9fafb;
+  color: #d1d5db;
   border-bottom-color: #4b5563;
 }
 
@@ -49,7 +49,7 @@ html, body, #root {
 
 .dark .preview-content code {
   background-color: #374151;
-  color: #f9fafb;
+  color: #d1d5db;
 }
 
 .dark .preview-content pre {
