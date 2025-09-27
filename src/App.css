@@ -6,6 +6,79 @@ html, body, #root {
   overflow: hidden;
 }
 
+/* Dark mode styles */
+.dark {
+  color-scheme: dark;
+}
+
+/* Dark mode markdown preview styling */
+.dark .preview-content {
+  color: #d1d5db;
+  background-color: #000000 !important;
+}
+
+/* Force dark background on all preview elements */
+.dark .preview-content * {
+  background-color: inherit !important;
+}
+
+/* Nuclear option - override any white backgrounds in dark mode */
+.dark [style*="background-color: white"],
+.dark [style*="background: white"],
+.dark .bg-white {
+  background-color: #000000 !important;
+}
+
+.dark .preview-content h1,
+.dark .preview-content h2,
+.dark .preview-content h3,
+.dark .preview-content h4,
+.dark .preview-content h5,
+.dark .preview-content h6 {
+  color: #d1d5db;
+  border-bottom-color: #4b5563;
+}
+
+.dark .preview-content a {
+  color: #60a5fa;
+}
+
+.dark .preview-content a:hover {
+  color: #93c5fd;
+}
+
+.dark .preview-content code {
+  background-color: #374151;
+  color: #d1d5db;
+}
+
+.dark .preview-content pre {
+  background-color: #374151;
+}
+
+.dark .preview-content blockquote {
+  border-left-color: #6b7280;
+  color: #d1d5db;
+}
+
+.dark .preview-content table th,
+.dark .preview-content table td {
+  border-color: #4b5563;
+}
+
+.dark .preview-content table tr {
+  background-color: #000000 !important;
+  border-top-color: #4b5563;
+}
+
+.dark .preview-content table tr:nth-child(2n) {
+  background-color: #111111 !important;
+}
+
+.dark .preview-content hr {
+  background-color: #4b5563;
+}
+
 .vim-editor {
   height: 100%;
   width: 100%;
@@ -212,7 +285,7 @@ html, body, #root {
   border: 0;
 }
 
-/* Vim cursor styling - comprehensive override */
+/* Light mode cursor styling */
 .cm-vim-fat-cursor,
 .cm-fat-cursor,
 .CodeMirror-vim-fat-cursor,
@@ -229,27 +302,53 @@ html, body, #root {
   border-left-color: black !important;
 }
 
-/* Override any red cursor colors */
-.cm-editor .cm-cursor,
-.cm-editor .cm-vim-fat-cursor,
-.cm-editor .cm-fat-cursor {
-  background-color: black !important;
-  border-color: black !important;
+/* Dark mode cursor styling */
+.dark .cm-vim-fat-cursor,
+.dark .cm-fat-cursor,
+.dark .CodeMirror-vim-fat-cursor,
+.dark .cm-vim-cursor,
+.dark .cm-cursor.cm-vim-cursor {
+  background-color: white !important;
+  border: none !important;
+  color: black !important;
 }
 
-/* Nuclear option - override everything with red */
-.cm-editor *[style*="background"] {
-  background-color: black !important;
+.dark .cm-focused .cm-cursor,
+.dark .cm-cursor,
+.dark .cm-dropCursor {
+  border-left-color: white !important;
 }
 
-.cm-editor *[style*="red"] {
-  background-color: black !important;
+.dark .cm-editor .cm-cursor,
+.dark .cm-editor .cm-vim-fat-cursor,
+.dark .cm-editor .cm-fat-cursor {
+  background-color: white !important;
+  border-color: white !important;
 }
 
-/* Target all possible cursor elements */
-.cm-content [style*="background-color: red"],
-.cm-content [style*="background: red"] {
-  background-color: black !important;
+
+/* CodeMirror height constraint to prevent status bar from moving */
+.cm-editor {
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+.cm-scroller {
+  max-height: 100% !important;
+  overflow: auto !important;
+}
+
+/* Ensure Split pane works properly */
+.split {
+  display: flex !important;
+  flex-direction: row !important;
+  height: 100% !important;
+}
+
+.split > div {
+  display: flex !important;
+  flex: 1 !important;
+  min-width: 0 !important;
 }
 
 /* React Split Pane Styling */
@@ -267,5 +366,20 @@ html, body, #root {
 .gutter.gutter-horizontal {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+YMQwYBxDhUjyrH6VOjbqSyrx4KGLWsTwAABc0fDaOeLwsAAAAASUVORK5CYII=');
   cursor: col-resize;
-  width: 8px;
+  width: 4px;
+}
+
+/* Dark mode gutter */
+.dark .gutter {
+  background-color: #374151;
+}
+
+.dark .gutter:hover {
+  background-color: #4b5563;
+}
+
+/* Ensure status bar dark mode works */
+.dark .status-bar {
+  background-color: #111827 !important;
+  border-top-color: #374151 !important;
 }
