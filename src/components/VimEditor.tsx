@@ -12,12 +12,24 @@ interface VimEditorProps {
   onChange: (value: string) => void;
   onCursorChange?: (line: number, column: number) => void;
   onVimModeChange?: (mode: string) => void;
+  onScroll?: (scrollTop: number) => void;
+  syncScrollTop?: number;
+  isScrollSyncEnabled?: boolean;
 }
 
-export default function VimEditor({ value, onChange, onCursorChange, onVimModeChange }: VimEditorProps) {
+export default function VimEditor({
+  value,
+  onChange,
+  onCursorChange,
+  onVimModeChange,
+  onScroll,
+  syncScrollTop,
+  isScrollSyncEnabled
+}: VimEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
   const { theme } = useTheme();
+  const isScrollingFromSync = useRef(false);
 
   useEffect(() => {
     if (!editorRef.current) return;
@@ -100,6 +112,7 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
               // Fallback if vim state is not available
             }
           }
+
         }),
         // Base theme
         EditorView.theme({
@@ -190,6 +203,23 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
     // Focus the editor on mount
     view.focus();
 
+    // Set up scroll listener
+    const handleScroll = () => {
+      if (onScroll && !isScrollingFromSync.current) {
+        const scrollTop = view.scrollDOM.scrollTop;
+        const scrollHeight = view.scrollDOM.scrollHeight;
+        const clientHeight = view.scrollDOM.clientHeight;
+
+        // Calculate scroll percentage
+        const maxScroll = scrollHeight - clientHeight;
+        const scrollPercentage = maxScroll > 0 ? scrollTop / maxScroll : 0;
+
+        onScroll(scrollPercentage);
+      }
+    };
+
+    view.scrollDOM.addEventListener('scroll', handleScroll, { passive: true });
+
     // Set up vim mode tracking
     if (onVimModeChange) {
       const checkVimMode = () => {
@@ -212,14 +242,16 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
 
       return () => {
         clearInterval(interval);
+        view.scrollDOM.removeEventListener('scroll', handleScroll);
         view.destroy();
       };
     }
 
     return () => {
+      view.scrollDOM.removeEventListener('scroll', handleScroll);
       view.destroy();
     };
-  }, [theme]);
+  }, [theme, onScroll]);
 
   useEffect(() => {
     if (viewRef.current && viewRef.current.state.doc.toString() !== value) {
@@ -232,6 +264,25 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
       });
     }
   }, [value]);
+
+  // Handle sync scroll from preview
+  useEffect(() => {
+    if (viewRef.current && syncScrollTop !== undefined && isScrollSyncEnabled) {
+      isScrollingFromSync.current = true;
+      const scroller = viewRef.current.scrollDOM;
+
+      // Convert percentage back to scroll position
+      const scrollHeight = scroller.scrollHeight;
+      const clientHeight = scroller.clientHeight;
+      const maxScroll = scrollHeight - clientHeight;
+      const targetScrollTop = maxScroll * syncScrollTop;
+
+      scroller.scrollTop = targetScrollTop;
+      setTimeout(() => {
+        isScrollingFromSync.current = false;
+      }, 100);
+    }
+  }, [syncScrollTop, isScrollSyncEnabled]);
 
   return <div ref={editorRef} className="vim-editor" />;
 }

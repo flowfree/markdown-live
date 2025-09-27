@@ -28,6 +28,9 @@ Enjoy writing in Markdown!`);
 
   const [cursorPosition, setCursorPosition] = useState({ line: 1, column: 1 });
   const [vimMode, setVimMode] = useState('normal');
+  const [editorScrollPercentage, setEditorScrollPercentage] = useState(0);
+  const [previewScrollPercentage, setPreviewScrollPercentage] = useState(0);
+  const [isScrollSyncEnabled, setIsScrollSyncEnabled] = useState(true);
 
   const wordCount = markdownContent.trim() ? markdownContent.trim().split(/\s+/).length : 0;
 
@@ -54,10 +57,18 @@ Enjoy writing in Markdown!`);
                 onChange={setMarkdownContent}
                 onCursorChange={(line, column) => setCursorPosition({ line, column })}
                 onVimModeChange={setVimMode}
+                onScroll={setEditorScrollPercentage}
+                syncScrollTop={previewScrollPercentage}
+                isScrollSyncEnabled={isScrollSyncEnabled}
               />
             </div>
-            <div className="overflow-auto">
-              <MarkdownPreview content={markdownContent} />
+            <div className="overflow-hidden">
+              <MarkdownPreview
+                content={markdownContent}
+                onScroll={setPreviewScrollPercentage}
+                syncScrollTop={editorScrollPercentage}
+                isScrollSyncEnabled={isScrollSyncEnabled}
+              />
             </div>
           </Split>
         </div>
