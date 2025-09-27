@@ -1,4 +1,4 @@
-# Markdown Editor
+# Markdown Live
 
 A modern desktop markdown editor built with Tauri, React, and Vim keybindings. Features a clean split-pane interface with real-time preview and synchronized scrolling.
 

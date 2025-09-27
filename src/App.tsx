@@ -21,24 +21,117 @@ import { ThemeProvider } from "./contexts/ThemeContext";
  */
 function App() {
   // Primary application state: the markdown content being edited
-  const [markdownContent, setMarkdownContent] = useState(`# Welcome to Vim Markdown Editor
+  const [markdownContent, setMarkdownContent] = useState(`# Welcome to Markdown Live
 
-This is a **markdown editor** with Vim keybindings!
+Markdown Live is a modern desktop markdown editor that combines the power of **Vim keybindings** with real-time preview capabilities. Built with React and Tauri, it offers a seamless writing experience for developers, writers, and documentation enthusiasts.
 
-## Features
-- Vim-style keybindings
-- Live preview
-- Split-pane interface
+## 🚀 Key Features
 
-Try editing this text using Vim commands:
-- Press \`i\` to enter insert mode
-- Press \`Esc\` to return to normal mode
-- Use \`h\`, \`j\`, \`k\`, \`l\` for navigation
-- Use \`dd\` to delete a line
-- Use \`yy\` to copy a line
-- Use \`p\` to paste
+### Editor Experience
+- **Full Vim Support**: Complete modal editing with normal, insert, visual, and command modes
+- **Syntax Highlighting**: Beautiful theme-aware markdown syntax highlighting
+- **Live Preview**: Real-time rendering with GitHub-flavored markdown styling
+- **Split-Pane Interface**: Resizable editor and preview panes for optimal workflow
+- **Scroll Synchronization**: Automatic alignment between editor and preview content
 
-Enjoy writing in Markdown!`);
+### Visual & Performance
+- **Dark/Light Themes**: Seamless theme switching with system preference detection
+- **Responsive Layout**: Adaptive interface that works on various screen sizes
+- **Fast Rendering**: Optimized performance with efficient re-rendering
+- **Desktop Native**: Cross-platform desktop application powered by Tauri
+
+## 📝 Getting Started with Vim
+
+If you're new to Vim, here are the essential commands to get you started:
+
+### Basic Navigation
+- \`h\` \`j\` \`k\` \`l\` - Move left, down, up, right
+- \`w\` \`b\` - Jump forward/backward by word
+- \`0\` \`$\` - Beginning/end of line
+- \`gg\` \`G\` - Top/bottom of document
+
+### Mode Switching
+- \`i\` - Enter insert mode at cursor
+- \`a\` - Enter insert mode after cursor
+- \`o\` - Create new line below and enter insert mode
+- \`Esc\` - Return to normal mode
+
+### Editing Commands
+- \`dd\` - Delete entire line
+- \`yy\` - Copy (yank) entire line
+- \`p\` - Paste below cursor
+- \`u\` - Undo last change
+- \`Ctrl+r\` - Redo
+
+### Search & Replace
+- \`/text\` - Search for "text"
+- \`n\` \`N\` - Next/previous search result
+- \`:s/old/new/g\` - Replace "old" with "new" on current line
+
+## 📋 Markdown Syntax Guide
+
+### Headers
+\`\`\`markdown
+# H1 Header
+## H2 Header
+### H3 Header
+\`\`\`
+
+### Text Formatting
+- **Bold text** with \`**bold**\`
+- *Italic text* with \`*italic*\`
+- \`inline code\` with backticks
+- ~~Strikethrough~~ with \`~~text~~\`
+
+### Lists
+1. Numbered lists
+2. Are created like this
+   - With sub-items
+   - Using dashes or asterisks
+
+### Code Blocks
+\`\`\`javascript
+function hello() {
+  console.log("Hello, Markdown Live!");
+}
+\`\`\`
+
+### Links & Images
+- [Link text](https://example.com)
+- ![Markdown Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Markdown-mark.svg/208px-Markdown-mark.svg.png)
+
+### Tables
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Vim bindings | ✅ | Full modal editing |
+| Live preview | ✅ | Real-time rendering |
+| Themes | ✅ | Dark/light modes |
+
+### Blockquotes
+> "The best way to get started is to quit talking and begin doing."
+>
+> — Walt Disney
+
+---
+
+## 🎯 Pro Tips
+
+1. **Theme Toggle**: Use the button in the status bar to switch between light and dark themes
+2. **Pane Resizing**: Drag the divider between editor and preview to adjust sizes
+3. **Scroll Sync**: The preview automatically follows your editor position
+4. **Word Count**: Keep track of your progress with the live word counter
+5. **Vim Mode**: The current Vim mode is displayed in the status bar
+
+## 🛠 Technical Details
+
+Markdown Live is built with modern web technologies:
+- **Frontend**: React 19 + TypeScript + Vite
+- **Editor**: CodeMirror 6 with Vim extension
+- **Desktop**: Tauri 2 for native performance
+- **Styling**: TailwindCSS for responsive design
+- **Markdown**: marked.js for parsing and rendering
+
+Start writing your content by pressing \`i\` to enter insert mode, or explore the interface to get familiar with the features. Happy writing! ✨`);
 
   // Editor state tracking for status bar display
   const [cursorPosition, setCursorPosition] = useState({ line: 1, column: 1 });

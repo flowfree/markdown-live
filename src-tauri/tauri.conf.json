@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Markdown Editor",
+  "productName": "Markdown Live",
   "version": "0.1.0",
   "identifier": "com.nashruddinamin.markdown-editor",
   "build": {
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "Markdown Editor",
+        "title": "Markdown Live",
         "width": 800,
         "height": 600,
         "maximized": true
