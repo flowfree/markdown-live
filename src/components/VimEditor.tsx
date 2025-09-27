@@ -2,14 +2,16 @@ import { useEffect, useRef } from "react";
 import { EditorView, basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
 import { markdown } from "@codemirror/lang-markdown";
-import { vim } from "@replit/codemirror-vim";
+import { vim, getCM } from "@replit/codemirror-vim";
 
 interface VimEditorProps {
   value: string;
   onChange: (value: string) => void;
+  onCursorChange?: (line: number, column: number) => void;
+  onVimModeChange?: (mode: string) => void;
 }
 
-export default function VimEditor({ value, onChange }: VimEditorProps) {
+export default function VimEditor({ value, onChange, onCursorChange, onVimModeChange }: VimEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
 
@@ -25,6 +27,26 @@ export default function VimEditor({ value, onChange }: VimEditorProps) {
         EditorView.updateListener.of((update) => {
           if (update.docChanged) {
             onChange(update.state.doc.toString());
+          }
+
+          // Track cursor position
+          if (update.selectionSet && onCursorChange) {
+            const pos = update.state.selection.main.head;
+            const line = update.state.doc.lineAt(pos);
+            onCursorChange(line.number, pos - line.from + 1);
+          }
+
+          // Track vim mode
+          if (onVimModeChange) {
+            try {
+              const cm = getCM(update.view);
+              if (cm && cm.state && cm.state.vim) {
+                const mode = cm.state.vim.mode || 'normal';
+                onVimModeChange(mode);
+              }
+            } catch (e) {
+              // Fallback if vim state is not available
+            }
           }
         }),
         EditorView.theme({
@@ -76,6 +98,32 @@ export default function VimEditor({ value, onChange }: VimEditorProps) {
 
     // Focus the editor on mount
     view.focus();
+
+    // Set up vim mode tracking
+    if (onVimModeChange) {
+      const checkVimMode = () => {
+        try {
+          const cm = getCM(view);
+          if (cm && cm.state && cm.state.vim) {
+            const mode = cm.state.vim.mode || 'normal';
+            onVimModeChange(mode);
+          }
+        } catch (e) {
+          // Fallback
+        }
+      };
+
+      // Check initial mode
+      setTimeout(checkVimMode, 100);
+
+      // Set up periodic checking
+      const interval = setInterval(checkVimMode, 100);
+
+      return () => {
+        clearInterval(interval);
+        view.destroy();
+      };
+    }
 
     return () => {
       view.destroy();

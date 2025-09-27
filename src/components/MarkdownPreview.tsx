@@ -23,7 +23,7 @@ export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
   }, [content]);
 
   return (
-    <div className="h-full p-6">
+    <div className="h-full p-6 bg-white">
       <div
         className="preview-content max-w-none"
         dangerouslySetInnerHTML={{ __html: html }}

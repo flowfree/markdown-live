@@ -252,6 +252,31 @@ html, body, #root {
   background-color: black !important;
 }
 
+
+/* CodeMirror height constraint to prevent status bar from moving */
+.cm-editor {
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+.cm-scroller {
+  max-height: 100% !important;
+  overflow: auto !important;
+}
+
+/* Ensure Split pane works properly */
+.split {
+  display: flex !important;
+  flex-direction: row !important;
+  height: 100% !important;
+}
+
+.split > div {
+  display: flex !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
 /* React Split Pane Styling */
 .gutter {
   background-color: #f1f3f4;
