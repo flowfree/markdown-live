@@ -6,6 +6,79 @@ html, body, #root {
   overflow: hidden;
 }
 
+/* Dark mode styles */
+.dark {
+  color-scheme: dark;
+}
+
+/* Dark mode markdown preview styling */
+.dark .preview-content {
+  color: #f9fafb;
+  background-color: #000000 !important;
+}
+
+/* Force dark background on all preview elements */
+.dark .preview-content * {
+  background-color: inherit !important;
+}
+
+/* Nuclear option - override any white backgrounds in dark mode */
+.dark [style*="background-color: white"],
+.dark [style*="background: white"],
+.dark .bg-white {
+  background-color: #000000 !important;
+}
+
+.dark .preview-content h1,
+.dark .preview-content h2,
+.dark .preview-content h3,
+.dark .preview-content h4,
+.dark .preview-content h5,
+.dark .preview-content h6 {
+  color: #f9fafb;
+  border-bottom-color: #4b5563;
+}
+
+.dark .preview-content a {
+  color: #60a5fa;
+}
+
+.dark .preview-content a:hover {
+  color: #93c5fd;
+}
+
+.dark .preview-content code {
+  background-color: #374151;
+  color: #f9fafb;
+}
+
+.dark .preview-content pre {
+  background-color: #374151;
+}
+
+.dark .preview-content blockquote {
+  border-left-color: #6b7280;
+  color: #d1d5db;
+}
+
+.dark .preview-content table th,
+.dark .preview-content table td {
+  border-color: #4b5563;
+}
+
+.dark .preview-content table tr {
+  background-color: #000000 !important;
+  border-top-color: #4b5563;
+}
+
+.dark .preview-content table tr:nth-child(2n) {
+  background-color: #111111 !important;
+}
+
+.dark .preview-content hr {
+  background-color: #4b5563;
+}
+
 .vim-editor {
   height: 100%;
   width: 100%;
@@ -292,5 +365,20 @@ html, body, #root {
 .gutter.gutter-horizontal {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+YMQwYBxDhUjyrH6VOjbqSyrx4KGLWsTwAABc0fDaOeLwsAAAAASUVORK5CYII=');
   cursor: col-resize;
-  width: 8px;
+  width: 4px;
+}
+
+/* Dark mode gutter */
+.dark .gutter {
+  background-color: #374151;
+}
+
+.dark .gutter:hover {
+  background-color: #4b5563;
+}
+
+/* Ensure status bar dark mode works */
+.dark .status-bar {
+  background-color: #111827 !important;
+  border-top-color: #374151 !important;
 }

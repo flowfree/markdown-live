@@ -3,6 +3,9 @@ import { EditorView, basicSetup } from "codemirror";
 import { EditorState } from "@codemirror/state";
 import { markdown } from "@codemirror/lang-markdown";
 import { vim, getCM } from "@replit/codemirror-vim";
+import { syntaxHighlighting, HighlightStyle } from "@codemirror/language";
+import { tags } from "@lezer/highlight";
+import { useTheme } from "../contexts/ThemeContext";
 
 interface VimEditorProps {
   value: string;
@@ -14,9 +17,56 @@ interface VimEditorProps {
 export default function VimEditor({ value, onChange, onCursorChange, onVimModeChange }: VimEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (!editorRef.current) return;
+
+    // Light mode syntax highlighting
+    const lightHighlight = HighlightStyle.define([
+      { tag: tags.heading1, color: "#0969da", fontWeight: "bold" },
+      { tag: tags.heading2, color: "#0969da", fontWeight: "bold" },
+      { tag: tags.heading3, color: "#0969da", fontWeight: "bold" },
+      { tag: tags.heading4, color: "#0969da", fontWeight: "bold" },
+      { tag: tags.heading5, color: "#0969da", fontWeight: "bold" },
+      { tag: tags.heading6, color: "#656d76", fontWeight: "bold" },
+      { tag: tags.strong, color: "#1f2328", fontWeight: "bold" },
+      { tag: tags.emphasis, color: "#8250df", fontStyle: "italic" },
+      { tag: tags.strikethrough, textDecoration: "line-through" },
+      { tag: tags.link, color: "#0969da", textDecoration: "underline" },
+      { tag: tags.url, color: "#0969da" },
+      { tag: tags.monospace, color: "#0550ae", backgroundColor: "#f6f8fa" },
+      { tag: tags.quote, color: "#656d76", fontStyle: "italic" },
+      { tag: tags.list, color: "#1f2328" },
+      { tag: tags.punctuation, color: "#1f2328" },
+      { tag: tags.content, color: "#1f2328" },
+      { tag: tags.keyword, color: "#cf222e" },
+      { tag: tags.string, color: "#0a3069" },
+      { tag: tags.comment, color: "#656d76", fontStyle: "italic" },
+    ]);
+
+    // Dark mode syntax highlighting
+    const darkHighlight = HighlightStyle.define([
+      { tag: tags.heading1, color: "#7dd3fc", fontWeight: "bold" },
+      { tag: tags.heading2, color: "#7dd3fc", fontWeight: "bold" },
+      { tag: tags.heading3, color: "#7dd3fc", fontWeight: "bold" },
+      { tag: tags.heading4, color: "#7dd3fc", fontWeight: "bold" },
+      { tag: tags.heading5, color: "#7dd3fc", fontWeight: "bold" },
+      { tag: tags.heading6, color: "#9ca3af", fontWeight: "bold" },
+      { tag: tags.strong, color: "#f9fafb", fontWeight: "bold" },
+      { tag: tags.emphasis, color: "#c084fc", fontStyle: "italic" },
+      { tag: tags.strikethrough, textDecoration: "line-through" },
+      { tag: tags.link, color: "#60a5fa", textDecoration: "underline" },
+      { tag: tags.url, color: "#60a5fa" },
+      { tag: tags.monospace, color: "#fbbf24", backgroundColor: "#374151" },
+      { tag: tags.quote, color: "#9ca3af", fontStyle: "italic" },
+      { tag: tags.list, color: "#f9fafb" },
+      { tag: tags.punctuation, color: "#f9fafb" },
+      { tag: tags.content, color: "#f9fafb" },
+      { tag: tags.keyword, color: "#f87171" },
+      { tag: tags.string, color: "#34d399" },
+      { tag: tags.comment, color: "#9ca3af", fontStyle: "italic" },
+    ]);
 
     const state = EditorState.create({
       doc: value,
@@ -24,6 +74,7 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
         basicSetup,
         markdown(),
         vim(),
+        syntaxHighlighting(theme === 'dark' ? darkHighlight : lightHighlight),
         EditorView.updateListener.of((update) => {
           if (update.docChanged) {
             onChange(update.state.doc.toString());
@@ -49,6 +100,7 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
             }
           }
         }),
+        // Base theme
         EditorView.theme({
           "&": {
             height: "100%",
@@ -68,6 +120,40 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
           ".cm-focused": {
             outline: "none",
           },
+        }),
+
+        // Theme-specific styling
+        theme === 'dark' ? EditorView.theme({
+          "&": {
+            backgroundColor: "#000000",
+            color: "#f9fafb",
+          },
+          ".cm-content": {
+            caretColor: "#f9fafb",
+          },
+          ".cm-cursor, .cm-dropCursor": {
+            borderLeftColor: "#f9fafb",
+          },
+          "&.cm-focused .cm-cursor": {
+            borderLeftColor: "#f9fafb",
+          },
+          ".cm-selectionBackground, ::selection": {
+            backgroundColor: "#374151",
+          },
+          ".cm-activeLine": {
+            backgroundColor: "#2d3748",
+          },
+          ".cm-gutters": {
+            backgroundColor: "#000000",
+            color: "#9ca3af",
+            border: "none",
+          },
+          ".cm-vim-fat-cursor": {
+            backgroundColor: "#f9fafb !important",
+            color: "#000000 !important",
+            border: "none !important",
+          },
+        }, { dark: true }) : EditorView.theme({
           ".cm-vim-fat-cursor": {
             backgroundColor: "black !important",
             border: "none !important",
@@ -128,7 +214,7 @@ export default function VimEditor({ value, onChange, onCursorChange, onVimModeCh
     return () => {
       view.destroy();
     };
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
     if (viewRef.current && viewRef.current.state.doc.toString() !== value) {
