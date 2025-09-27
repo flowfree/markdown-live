@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run build` - Build for production (TypeScript compilation + Vite build)
 - `npm run preview` - Preview production build
 - `npm run tauri` - Run Tauri commands (use with dev/build for desktop app)
+- `npx tsc --noEmit` - Type check without emitting files
 
 ### Tauri Desktop App
 - `npm run tauri dev` - Run in Tauri development mode (desktop app)
