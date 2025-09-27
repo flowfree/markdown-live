@@ -6,6 +6,91 @@ html, body, #root {
   overflow: hidden;
 }
 
+/* Dark mode styles */
+.dark {
+  color-scheme: dark;
+}
+
+.dark .preview-content {
+  color: #e6edf3;
+  background-color: #000000;
+}
+
+.dark .preview-content,
+.dark .markdown-preview {
+  background-color: #000000 !important;
+}
+
+/* Ensure all preview areas are dark */
+.dark div[class*="preview"],
+.dark div[class*="overflow-auto"] {
+  background-color: #000000 !important;
+}
+
+/* Force dark background on all elements inside preview */
+.dark .preview-content * {
+  background-color: inherit !important;
+}
+
+/* Nuclear option - override any white backgrounds in dark mode */
+.dark [style*="background-color: white"],
+.dark [style*="background: white"],
+.dark .bg-white {
+  background-color: #000000 !important;
+}
+
+.dark .preview-content h1,
+.dark .preview-content h2 {
+  border-bottom-color: #30363d;
+}
+
+.dark .preview-content h6 {
+  color: #7d8590;
+}
+
+.dark .preview-content blockquote {
+  color: #7d8590;
+  border-left-color: #30363d;
+}
+
+.dark .preview-content code {
+  background-color: #2d333b;
+}
+
+.dark .preview-content pre {
+  background-color: #2d333b;
+}
+
+.dark .preview-content table th,
+.dark .preview-content table td {
+  border-color: #30363d;
+}
+
+.dark .preview-content table tr {
+  background-color: #000000;
+  border-top-color: #30363d;
+}
+
+.dark .preview-content table tr:nth-child(2n) {
+  background-color: #111111;
+}
+
+.dark .preview-content table th {
+  background-color: #111111;
+}
+
+.dark .preview-content a {
+  color: #58a6ff;
+}
+
+.dark .preview-content a:hover {
+  color: #79c0ff;
+}
+
+.dark .preview-content hr {
+  background-color: #30363d;
+}
+
 .vim-editor {
   height: 100%;
   width: 100%;
@@ -212,7 +297,7 @@ html, body, #root {
   border: 0;
 }
 
-/* Vim cursor styling - comprehensive override */
+/* Vim cursor styling - light mode */
 .cm-vim-fat-cursor,
 .cm-fat-cursor,
 .CodeMirror-vim-fat-cursor,
@@ -237,6 +322,30 @@ html, body, #root {
   border-color: black !important;
 }
 
+/* Dark mode cursor styling */
+.dark .cm-vim-fat-cursor,
+.dark .cm-fat-cursor,
+.dark .CodeMirror-vim-fat-cursor,
+.dark .cm-vim-cursor,
+.dark .cm-cursor.cm-vim-cursor {
+  background-color: #e6edf3 !important;
+  border: none !important;
+  color: #0d1117 !important;
+}
+
+.dark .cm-focused .cm-cursor,
+.dark .cm-cursor,
+.dark .cm-dropCursor {
+  border-left-color: #e6edf3 !important;
+}
+
+.dark .cm-editor .cm-cursor,
+.dark .cm-editor .cm-vim-fat-cursor,
+.dark .cm-editor .cm-fat-cursor {
+  background-color: #e6edf3 !important;
+  border-color: #e6edf3 !important;
+}
+
 /* Nuclear option - override everything with red */
 .cm-editor *[style*="background"] {
   background-color: black !important;
@@ -246,10 +355,23 @@ html, body, #root {
   background-color: black !important;
 }
 
+.dark .cm-editor *[style*="background"] {
+  background-color: #e6edf3 !important;
+}
+
+.dark .cm-editor *[style*="red"] {
+  background-color: #e6edf3 !important;
+}
+
 /* Target all possible cursor elements */
 .cm-content [style*="background-color: red"],
 .cm-content [style*="background: red"] {
   background-color: black !important;
+}
+
+.dark .cm-content [style*="background-color: red"],
+.dark .cm-content [style*="background: red"] {
+  background-color: #e6edf3 !important;
 }
 
 /* React Split Pane Styling */
@@ -268,4 +390,13 @@ html, body, #root {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+YMQwYBxDhUjyrH6VOjbqSyrx4KGLWsTwAABc0fDaOeLwsAAAAASUVORK5CYII=');
   cursor: col-resize;
   width: 8px;
+}
+
+/* Dark mode gutter */
+.dark .gutter {
+  background-color: #49483e;
+}
+
+.dark .gutter:hover {
+  background-color: #75715e;
 }

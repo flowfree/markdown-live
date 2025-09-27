@@ -3,6 +3,8 @@ import Split from "react-split";
 import "./App.css";
 import VimEditor from "./components/VimEditor";
 import MarkdownPreview from "./components/MarkdownPreview";
+import StatusBar from "./components/StatusBar";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
   const [markdownContent, setMarkdownContent] = useState(`# Welcome to Vim Markdown Editor
@@ -24,31 +26,45 @@ Try editing this text using Vim commands:
 
 Enjoy writing in Markdown!`);
 
+  const [cursorPosition, setCursorPosition] = useState({ line: 1, column: 1 });
+  const [vimMode, setVimMode] = useState('normal');
+
+  const wordCount = markdownContent.trim() ? markdownContent.trim().split(/\s+/).length : 0;
+
   return (
-    <div className="h-screen w-screen flex flex-col">
-      <Split
-        sizes={[50, 50]}
-        minSize={300}
-        expandToMin={false}
-        gutterSize={8}
-        gutterAlign="center"
-        snapOffset={30}
-        dragInterval={1}
-        direction="horizontal"
-        cursor="col-resize"
-        className="flex h-full"
-      >
-        <div className="overflow-hidden">
-          <VimEditor
-            value={markdownContent}
-            onChange={setMarkdownContent}
-          />
-        </div>
-        <div className="overflow-auto bg-white">
-          <MarkdownPreview content={markdownContent} />
-        </div>
-      </Split>
-    </div>
+    <ThemeProvider>
+      <div className="h-screen w-screen flex flex-col bg-white dark:bg-gray-900">
+        <Split
+          sizes={[50, 50]}
+          minSize={300}
+          expandToMin={false}
+          gutterSize={8}
+          gutterAlign="center"
+          snapOffset={30}
+          dragInterval={1}
+          direction="horizontal"
+          className="flex flex-1"
+        >
+          <div className="overflow-hidden bg-white dark:bg-[#272822]">
+            <VimEditor
+              value={markdownContent}
+              onChange={setMarkdownContent}
+              onCursorChange={(line, column) => setCursorPosition({ line, column })}
+              onVimModeChange={setVimMode}
+            />
+          </div>
+          <div className="overflow-auto bg-white dark:bg-black" style={{backgroundColor: 'inherit'}}>
+            <MarkdownPreview content={markdownContent} />
+          </div>
+        </Split>
+        <StatusBar
+          wordCount={wordCount}
+          vimMode={vimMode}
+          line={cursorPosition.line}
+          column={cursorPosition.column}
+        />
+      </div>
+    </ThemeProvider>
   );
 }
 

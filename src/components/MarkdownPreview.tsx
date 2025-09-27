@@ -23,9 +23,9 @@ export default function MarkdownPreview({ content }: MarkdownPreviewProps) {
   }, [content]);
 
   return (
-    <div className="h-full p-6">
+    <div className="h-full p-6 bg-white dark:bg-black">
       <div
-        className="preview-content max-w-none"
+        className="preview-content max-w-none bg-white dark:bg-black"
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </div>
