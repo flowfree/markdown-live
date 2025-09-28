@@ -15,7 +15,8 @@
         "title": "Markdown Live",
         "width": 800,
         "height": 600,
-        "maximized": true
+        "maximized": true,
+        "additionalBrowserArgs": "--disable-web-security --disable-features=msWebOOUI,msPdfOOUI,msSmartScreenProtection --disable-context-menu"
       }
     ],
     "security": {

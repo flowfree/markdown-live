@@ -141,7 +141,7 @@ Start writing your content by pressing \`i\` to enter insert mode, or explore th
   // This ensures content alignment regardless of different pane heights
   const [editorScrollPercentage, setEditorScrollPercentage] = useState(0);
   const [previewScrollPercentage, setPreviewScrollPercentage] = useState(0);
-  const [isScrollSyncEnabled, setIsScrollSyncEnabled] = useState(true);
+  const [isScrollSyncEnabled] = useState(true);
 
   // Calculate word count for status bar (handles empty content gracefully)
   const wordCount = markdownContent.trim() ? markdownContent.trim().split(/\s+/).length : 0;
