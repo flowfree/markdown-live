@@ -280,39 +280,10 @@ export default function VimEditor({
     view.scrollDOM.addEventListener('scroll', handleScroll, { passive: true });
 
     /**
-     * Set up Vim mode tracking if callback is provided.
-     * Since Vim mode can change frequently and the state isn't always
-     * immediately available, we use polling to reliably track mode changes.
+     * Cleanup function: remove listeners and destroy editor instance.
+     * Note: Vim mode tracking is handled by EditorView.updateListener above,
+     * which fires on state changes rather than polling.
      */
-    if (onVimModeChange) {
-      const checkVimMode = () => {
-        try {
-          // Get the underlying CodeMirror instance to access Vim state
-          const cm = getCM(view);
-          if (cm && cm.state && cm.state.vim) {
-            const mode = cm.state.vim.mode || 'normal';
-            onVimModeChange(mode);
-          }
-        } catch (e) {
-          // Silently handle cases where Vim state is not available
-        }
-      };
-
-      // Check initial mode after a brief delay to ensure Vim is initialized
-      setTimeout(checkVimMode, 100);
-
-      // Poll for mode changes every 100ms for responsive status updates
-      const interval = setInterval(checkVimMode, 100);
-
-      // Cleanup function when component unmounts or dependencies change
-      return () => {
-        clearInterval(interval);
-        view.scrollDOM.removeEventListener('scroll', handleScroll);
-        view.destroy();
-      };
-    }
-
-    // Cleanup function when no Vim mode tracking is needed
     return () => {
       view.scrollDOM.removeEventListener('scroll', handleScroll);
       view.destroy();
